@@ -194,7 +194,7 @@ class Matrix23(Matrix, dimensions=(2, 3)):
         x13 = x[0][2] + y[0][2]
         x21 = x[1][0] + y[1][0]
         x22 = x[1][1] + y[1][1]
-        x13 = x[1][2] + y[1][2]
+        x23 = x[1][2] + y[1][2]
 
         return Matrix23([[x11, x12, x13], [x21, x22, x23]])
 
@@ -209,14 +209,30 @@ class Matrix23(Matrix, dimensions=(2, 3)):
             return Matrix22(arr)
 
         if isinstance(other, Matrix32):
-            x11 = self._arr[0][0] * other._arr[0][0] + self._arr[0][1] * other._arr[1][0] + self._arr[0][2] * other._arr[2][0]
-            x12 = self._arr[0][0] * other._arr[0][1] + self._arr[0][1] * other._arr[1][1] + self._arr[0][2] * other._arr[2][1]
-            x21 = self._arr[1][0] * other._arr[0][0] + self._arr[1][1] * other._arr[1][0] + self._arr[1][2] * other._arr[2][0]
-            x22 = self._arr[1][0] * other._arr[0][1] + self._arr[1][1] * other._arr[1][1] + self._arr[1][2] * other._arr[2][1]
+            x11 = (
+                    self._arr[0][0] * other._arr[0][0] +
+                    self._arr[0][1] * other._arr[1][0] +
+                    self._arr[0][2] * other._arr[2][0]
+            )
+            x12 = (
+                    self._arr[0][0] * other._arr[0][1] +
+                    self._arr[0][1] * other._arr[1][1] +
+                    self._arr[0][2] * other._arr[2][1]
+            )
+            x21 = (
+                    self._arr[1][0] * other._arr[0][0] +
+                    self._arr[1][1] * other._arr[1][0] +
+                    self._arr[1][2] * other._arr[2][0]
+            )
+            x22 = (
+                    self._arr[1][0] * other._arr[0][1] +
+                    self._arr[1][1] * other._arr[1][1] +
+                    self._arr[1][2] * other._arr[2][1]
+            )
 
             return Matrix22([[x11, x12], [x21, x22]])
 
-        if isinstance(other, Matrix23):  # need to do
+        if isinstance(other, Matrix33):  # need to do
             x11 = self._arr[0][0] * other._arr[0][0] + self._arr[0][1] * other._arr[1][0]
             x12 = self._arr[0][0] * other._arr[0][1] + self._arr[0][1] * other._arr[1][1]
             x13 = self._arr[0][0] * other._arr[0][2] + self._arr[0][1] * other._arr[1][2]
@@ -226,7 +242,7 @@ class Matrix23(Matrix, dimensions=(2, 3)):
 
             return Matrix23([[x11, x12, x13], [x21, x22, x23]])
 
-        if isinstance(other, Matrix24):
+        if isinstance(other, Matrix34):
             x11 = self._arr[0][0] * other._arr[0][0] + self._arr[0][1] * other._arr[1][0]
             x12 = self._arr[0][0] * other._arr[0][1] + self._arr[0][1] * other._arr[1][1]
             x13 = self._arr[0][0] * other._arr[0][2] + self._arr[0][1] * other._arr[1][2]
@@ -236,7 +252,7 @@ class Matrix23(Matrix, dimensions=(2, 3)):
             x23 = self._arr[1][0] * other._arr[0][2] + self._arr[1][1] * other._arr[1][2]
             x24 = self._arr[1][0] * other._arr[0][3] + self._arr[1][1] * other._arr[1][3]
 
-            return Matrix24([[x11, x12, x13, x14], [x21, x22, x23, x24]])
+            return Matrix34([[x11, x12, x13, x14], [x21, x22, x23, x24]])
 
         raise TypeError(f"cannot multiply Matrix22 on the right by {type(other)}")
 
@@ -245,7 +261,7 @@ class Matrix23(Matrix, dimensions=(2, 3)):
         if not is_number:
             raise TypeError("cannot multiply matrix on the left by anything but a number")
 
-        arr = [[other * self._arr[j][i] for i in range(2)] for j in range(2)]
+        arr = [[other * self._arr[j][i] for i in range(3)] for j in range(2)]
         return Matrix(arr)
 
     def __abs__(self) -> float:  # determinant
@@ -441,9 +457,7 @@ class Matrix44(Matrix, dimensions=(4, 4)):
 if __name__ == "__main__":
     M1 = Matrix([[1, 2, 3], [4, 5, 6]])
     M2 = Matrix([[1, 2], [3, 4], [5, 6]])
-    print(M1 * M2)
-
-
+    print(3 * M1 * M2)
 
 
 # class DummyMatrix(Matrix, dimensions=(1, 1)):
